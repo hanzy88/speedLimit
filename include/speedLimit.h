@@ -8,7 +8,6 @@
 #include <vector>
 #include <iostream>
 
-namespace az{
 class speedLimit{
 	public:
 		speedLimit(){};
@@ -21,7 +20,5 @@ class speedLimit{
 		int recognizeDigit(cv::Mat imgSrc, std::vector<cv::Mat> templates, int threshold);
 		~speedLimit(){};
 };
-
-} //namespace az
 
 #endif
