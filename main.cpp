@@ -5,7 +5,7 @@ int main(int argc, char* argv[])
 {
 	cv::Mat src_img;
 	src_img = cv::imread("1.jpg", 1);
-	az::speedLimit process;
+	speedLimit process;
 
 	std::vector<cv::Mat> rois;
 	rois = process.signRec(src_img);
