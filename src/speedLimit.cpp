@@ -3,8 +3,6 @@
 
 #define log_test fprintf(stderr, "file: %s, line: %d, function: %s\n", __FILE__, __LINE__, __FUNCTION__)
 
-namespace az{
-
 std::vector<cv::Vec3f> speedLimit::findCircles(cv::Mat imgSrc)
 {
 	cv::Mat img;
@@ -193,6 +191,4 @@ int speedLimit::recognizeDigit(cv::Mat imgSrc, std::vector<cv::Mat> templates, i
 	}
 
 	return 0;
-}
-
 }
