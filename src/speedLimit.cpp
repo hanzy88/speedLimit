@@ -3,6 +3,8 @@
 
 #define log_test fprintf(stderr, "file: %s, line: %d, function: %s\n", __FILE__, __LINE__, __FUNCTION__)
 
+namespace az{
+
 std::vector<cv::Vec3f> speedLimit::findCircles(cv::Mat imgSrc)
 {
 	cv::Mat img;
@@ -11,6 +13,7 @@ std::vector<cv::Vec3f> speedLimit::findCircles(cv::Mat imgSrc)
 
 	cv::medianBlur(imgSrc, img, 5);
 	cv::cvtColor(imgSrc, gray, CV_BGR2GRAY);
+
 	cv::HoughCircles(gray, circles, CV_HOUGH_GRADIENT, 1, 20, 100, 30, 10, 50);
 	return circles;
 }
@@ -20,7 +23,7 @@ cv::Mat speedLimit::extractSignRoi(cv::Mat imgSrc, cv::Vec3f circle)
 	int x = cvRound(circle[0]);
 	int y = cvRound(circle[1]);
 	int r = cvRound(circle[2]);
-
+	
 	int rn = int(r - (r / 5));
 	cv::Rect rect(x - rn, y-rn, 2 * rn, 2 * rn);
 	cv::Mat roi = imgSrc(rect);
@@ -32,6 +35,7 @@ std::vector<cv::Mat> speedLimit::signRec(cv::Mat imgSrc)
 	std::vector<cv::Vec3f> circles;
 	circles = findCircles(imgSrc);
 	std::vector<cv::Mat> rois;
+	
 
 	if(!circles.empty())
 	{
@@ -53,7 +57,7 @@ bool speedLimit::checkRoi(cv::Mat imgSrc)
 	cv::Mat kern = (cv::Mat_<char>(3,3) << 0, -1 , 0,-1, 5,-1, 0, -1, 0);
 
 	cv::Mat dstImg;
-	cv::filter2D(imgSrc,dstImg,imgSrc.depth(),kern);
+	cv::filter2D(imgSrc,dstImg,-1,kern);
 	
 	cv::Mat thresh;
 	cv::threshold(dstImg, thresh, 60, 255, cv::THRESH_BINARY);
@@ -191,4 +195,6 @@ int speedLimit::recognizeDigit(cv::Mat imgSrc, std::vector<cv::Mat> templates, i
 	}
 
 	return 0;
+}
+
 }

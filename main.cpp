@@ -4,21 +4,34 @@
 int main(int argc, char* argv[])
 {
 	cv::Mat src_img;
-	src_img = cv::imread("1.jpg", 1);
-	speedLimit process;
+	src_img = cv::imread(argv[1], 1);
+
+	if(argv[1] == NULL)
+	{
+		fprintf(stderr, "The image should input for speedlimit, as ./speedLimit 1.jpg\n");
+		exit(1);
+	}
+
+	az::speedLimit process;
+	
+	if(argv[2] != NULL)
+	{
+		fprintf(stderr, "Input the file of template image, init the tem.txt\n");		
+		process.saveTem(argv[2]);
+	}
 
 	std::vector<cv::Mat> rois;
 	rois = process.signRec(src_img);
 
 	std::vector<cv::Mat> out = process.readTem();
 	
-	/*
-	for(int i = 0;i < out.size();i++){
+	
+	for(int i = 0;i < rois.size();i++){
 		cv::namedWindow("readDigit");
-		cv::imshow("readDigit", out[i]);
+		cv::imshow("readDigit", rois[i]);
 		cv::waitKey();
 	}
-	*/
+	
 	
 	for(size_t i = 0;i < rois.size();i++){
 		cv::Mat roi = rois[i];
